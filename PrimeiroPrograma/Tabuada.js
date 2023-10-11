@@ -15,5 +15,5 @@ do {
     for (let numIndice = 0; numIndice < 10; numIndice++) {
         console.log((numIndice + 1) + " x " + numEntrada + " = " + ((numIndice + 1) * numEntrada))
     }
-} while(numEntrada > 0)
+} while (numEntrada > 0)
 
