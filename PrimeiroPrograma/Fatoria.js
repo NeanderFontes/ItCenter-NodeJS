@@ -4,14 +4,17 @@
 const input = require("prompt-sync")();
 
 //Entrada de dados:
-const numero = input("Fatorial, digite seu numero: ");
-let resposta = numero;
-let fatorial = parseInt(numero);
+const numeroEntrada = input("Fatorial, digite seu numero: ");
+let concatenarValorString = numeroEntrada; //"10"
+let numfatorial = parseInt(numeroEntrada); //10
 
-for (let i = parseInt(numero) - 1; i >= 1; i--) {
-    fatorial *= i;
-    resposta += "x" + i;
+for (let numIndice = parseInt(numeroEntrada) - 1; numIndice >= 1; numIndice--) {
+    numfatorial *= numIndice;
+    //Transformação do numFatorial em String e fazendo a concatenação com x no cliclo for:
+    concatenarValorString += "x" + numIndice;
+
+    //Condição para imprimir valores na última iteração:
+    if (i == 1) {
+        console.log(concatenarValorString + " = " + numfatorial)
+    }
 }
-
-resposta += " = " + fatorial;
-console.log(resposta);
