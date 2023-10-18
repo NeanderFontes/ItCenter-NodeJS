@@ -8,7 +8,7 @@
 // Criar Const para instalar o MYSQL:
 const mysql = require('mysql'); // para instalar npm i mysql
 // Criar um servidor HTTP com modulo express:
-const express = require("express"); // para instalar npm i mysql
+const express = require("express"); // para instalar npm i express
 const app = express();//Transformar todos os body em JSON
 app.use(express.json());
 
