@@ -1,0 +1,23 @@
+/* CREATE DATABASE nodepl06 */
+CREATE TABLE Jogador (
+    Id INT AUTO_INCREMENT,
+    Nome VARCHAR(50),
+    FkClube INT,
+    PRIMARY KEY(Id)
+);
+
+CREATE TABLE Clube (
+    Id INT AUTO_INCREMENT,
+    Nome VARCHAR(50),
+    PRIMARY KEY(Id)
+);
+
+CREATE TABLE Resultado (
+    Id INT AUTO_INCREMENT,
+    fkHomeClub INT,
+    FkAwayClub INT,
+    Score VARCHAR(1),
+    PRIMARY KEY(Id)
+);
+
+
