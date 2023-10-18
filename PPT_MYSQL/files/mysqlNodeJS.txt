@@ -1,0 +1,16 @@
+CREATE TABLE aluno (
+    idAluno INT AUTO_INCREMENT,
+    nomeAluno VARCHAR(50) NOT NULL,
+    dataAniversario DATE,
+    class VARCHAR(1),
+    PRIMARY KEY (idAluno)
+);
+
+INSERT INTO aluno (nomeAluno,  dataAniversario, class)
+VALUES
+('Neander', '1989-03-10', 'A'),
+('Rebeca', '1988-09-29', 'B'),
+('Igor', '1989-08-04', 'C'),
+('Hugo', '1989-11-01', 'D'),
+('Doreia', '1962-06-03', 'E'),
+('Adinalvo', '1964-06-19', 'F')
