@@ -1,63 +1,88 @@
-//1º Passo sempre iniciar 'npm init -y' no terminal para criar o package.json
-
-//Criação da require express npm i express:
+// Importando os módulos necessários
 const express = require("express");
+const mysql = require("mysql");
 
-//Criação da require mysql npm i mysql:
-const mysql = require('mysql')
-
-//Transformar todos os body em JSON:
+// Criando uma instância do aplicativo Express
 const app = express();
-app.use(express.json());
 
-// Atribuir conexão para acesso ao banco de dados:
-const conexao = mysql.createConnection({
+// Configuração da conexão com o banco de dados MySQL
+const con = mysql.createConnection({
     host: "localhost",
     user: "root",
     password: "",
+    database: "nodepl1"
 });
 
-// Função para acessar conexão de banco de dados:
-conexao.connect(function (err) {
+// Conectando ao banco de dados
+con.connect(function (err) {
     if (err) throw err;
-    console.log("Connected");
+    console.log("Conectado ao banco de dados");
 });
 
-//2.a. “/newgame”: Insere o resultado de um jogo entre dois clubes
-app.post("/newgame", (request, response) => {
-    //Function arrow para inserir pela query base de dados "nodepl046" tabela "clube"
-    const queryInsert = "INSERT INTO NodePL06.resultado (fkHomeClub, FkAwayClub, Score) Values ?";
-    // JSON para arary request:
-    const data = [[
-        request.body.fkHomeClub, request.body.FkAwayClub, request.body.Score
-    ]]
+// Middleware para análise de corpo JSON
+app.use(express.json());
 
-    conexao.query(queryInsert, [data], (err, result) => {
-        if (err) throw err;
-        console.log(result);
-    });
+// Rota para criar um novo clube
+app.post("/clube/new", (req, res) => {
+    const object = req.body;
+    console.log(object);
 
-    response.send("Sucesso!");
-});
+    const queryInsertClube = "INSERT INTO Clube(resultado) VALUES (?)";
+    const convertedObject = [object.Resultado];
 
-//2.b. “/player/{id}”: Retorna os dados do jodador com o {id} 
-app.get("/player/:id", (req, res) => {
-    const idPlayer = req.params.Id
-
-    conexao.query("Select * from NodePL06.clube where Id = ?", idPlayer, (err, result) => {
-        if(err) throw err;
-        res.json(result);
-    })
-})
-
-//2.“/club/{id}”: Retorna os dados do clube e os respetivos jogadores associados ao mesmo 
-app.get("/player/:id", (req, res) => {
-    const idClub = req.params.Id
-
-    conexao.query("Select * from NodePL06.clube where Id = ?", idClub, (err, result) => {
-        if(err) {
-            throw err;
+    con.query(queryInsertClube, convertedObject, (err, result) => {
+        if (err) res.send(err);
+        else {
+            console.log(result);
+            res.send("Resultado de um jogo inserido com sucesso usando o ID " + result.insertId);
         }
-        res.json(result);
-    })
-})
+    });
+});
+
+// Rota para criar um novo jogador
+app.post("/jogador/new", (req, res) => {
+    const object = req.body;
+    console.log(object);
+
+    const queryInsertJogador = "INSERT INTO jogador(Nome, FkClube) VALUES (?, ?)";
+    const convertedObject = [object.Nome, object.FkClube];
+
+    con.query(queryInsertJogador, convertedObject, (err, result) => {
+        if (err) res.send(err);
+        else {
+            console.log(result);
+            res.send("Dados do jogador inseridos com sucesso com ID " + result.insertId);
+        }
+    });
+});
+
+// Rota para obter informações sobre um clube e seus jogadores
+app.get("/clube/:id", (req, res) => {
+    const id = req.params.id;
+
+    // Consulta para obter o nome do clube com base no ID
+    const querySelectClube = "SELECT Nome FROM clube WHERE id = ?";
+
+    con.query(querySelectClube, id, (err, result) => {
+        if (err) res.json(err);
+        else {
+            console.log(result);
+
+            // Consulta para obter os jogadores pertencentes ao clube
+            const querySelectJogadores = "SELECT Nome, FkClube FROM jogador WHERE FkClube = ?";
+            con.query(querySelectJogadores, id, (err, result2) => {
+                if (err) res.json(err);
+                else {
+                    console.log(result2);
+                    result[0].Jogadores = result2;
+                    res.json(result);
+                }
+            });
+        }
+    });
+});
+
+// Iniciando o servidor na porta 3000
+app.listen(3000, () => {
+    console.log("Servidor ativo na porta 3000");
+});
