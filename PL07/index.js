@@ -1,11 +1,10 @@
 const express = require('express');
-const bodyParser = require('body-parser');
-const mysql = require('mysql');
 
 const app = express();
-app.use(bodyParser.json());
+app.use(express.json());
 
 // Configuração do banco de dados MySQL
+const mysql = require('mysql');
 const db = mysql.createConnection({
     host: 'localhost',
     user: 'seu_usuario',
@@ -14,10 +13,9 @@ const db = mysql.createConnection({
 });
 
 // Conectar ao banco de dados
-db.connect(err => {
+db.connect(function (err) {
     if (err) {
         console.error('Erro ao conectar ao banco de dados MySQL: ' + err);
-        return;
     }
     console.log('Conectado ao banco de dados MySQL');
 });
