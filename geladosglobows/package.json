@@ -1,0 +1,23 @@
+{
+  "name": "geladosglobows",
+  "version": "0.0.1",
+  "description": "WebService da empresa GeladosGlobo",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "keywords": [
+    "gelados",
+    "yammy",
+    "eu",
+    "estou",
+    "aqui"
+  ],
+  "author": "NeanderBarbosa",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "mysql": "^2.18.1"
+  }
+}
